@@ -1,9 +1,26 @@
-myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$location', 'FIREBASE_URL', function($rootScope, $firebaseAuth, $location, FIREBASE_URL){
+myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$location', '$firebaseObject', 'FIREBASE_URL', 
+	function($rootScope, $firebaseAuth, $location, $firebaseObject, FIREBASE_URL){
 
 	var ref = new Firebase(FIREBASE_URL);
 	var auth = $firebaseAuth(ref);
 
+	//Check to see if user is authenticated
+	auth.$onAuth(function(authUser){
+
+		if (authUser){
+			var userRef = new Firebase(FIREBASE_URL + 'users/' + authUser.uid);
+			var userObj = $firebaseObject(userRef);
+			console.log("Authenticated with uid:", authUser.uid);
+			$rootScope.currentUser = userObj;
+
+		} else{
+			$rootScope.currentUser = '';
+			
+		}
+	});
+
 	return{
+		
 		// USER LOGIN 
 		login: function(user){
 			auth.$authWithPassword({
@@ -18,6 +35,13 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$location', 'FI
 				$rootScope.message = error.message;
 			});
 			
+		},
+
+		// USER LOGOUT
+		logout: function(){
+
+			return auth.$unauth();
+
 		},
 
 		//USER REGISTRATION
