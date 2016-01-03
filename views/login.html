@@ -1,10 +1,11 @@
 <section class="card login">
-  <form name="myform" novalidate>
+  <form name="myform" ng-submit="login()" novalidate>
 
     <div class="textintro">
       <h1>Hi there!</h1>
       <p>Log-in to access the awesomeness!</p>
-      <p>{{ user.email }}</p>
+      <p>{{ myform.$valid }}</p>
+      <p class="message" ng-show="message">{{ message }}</p>
     </div>
 
     <fieldset>
@@ -15,7 +16,7 @@
       <p class="error validationerror" ng-show="myform.password.$invalid && myform.password.$touched">Password is required</p>
     </fieldset>
 
-    <button type="submit" class="btn">Login</button>
+    <button type="submit" class="btn" ng-disabled="myform.$invalid">Login</button>
     <p>or <a href="#/register">register</a></p>
   </form>
 </section>
