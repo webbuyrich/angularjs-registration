@@ -20,7 +20,7 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$location', '$f
 	});
 
 	return{
-		
+
 		// USER LOGIN 
 		login: function(user){
 			auth.$authWithPassword({
@@ -41,6 +41,12 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$location', '$f
 		logout: function(){
 
 			return auth.$unauth();
+
+		},
+
+		// REQUIRE AUTHENTICATION
+		requireAuth: function(){
+			return auth.$requireAuth();
 
 		},
 
