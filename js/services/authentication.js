@@ -31,8 +31,11 @@ myApp.factory('Authentication', ['$rootScope', '$firebaseAuth', '$location', '$f
 				// redirect to success page
 				$location.path('/success');
 
+
 			}).catch(function(error){
 				$rootScope.message = error.message;
+				$location.path('/');
+				
 			});
 			
 		},
